@@ -1,0 +1,24 @@
+{
+    "Object": {
+        "rid": 1000
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "ShootAction",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "ActionID": "BasicShoot",
+                    "Damage": 10,
+                    "Startup": 30,
+                    "LockTime": 60
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "Object": {
+        "rid": 1000
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "Archer",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "EnemyID": "BasicArcher",
+                    "Health": 100,
+                    "Prefab": "EnemyPrefab",
+                    "AttackActionID": "ArcherShot",
+                    "MoveActionID": "StepToPlayerRow1",
+                    "TimeBetweenActions": 1.0
+                }
+            }
+        ]
+    }
+}

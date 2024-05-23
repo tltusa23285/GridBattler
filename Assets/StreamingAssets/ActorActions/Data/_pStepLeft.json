@@ -1,0 +1,27 @@
+{
+    "Object": {
+        "rid": 1000
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "StepAction",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "ActionID": "_pStepLeft",
+                    "Direction": {
+                        "x": -1,
+                        "y": 0
+                    },
+                    "Duration": 0.15000000596046449,
+                    "Buffer": 0.05000000074505806
+                }
+            }
+        ]
+    }
+}

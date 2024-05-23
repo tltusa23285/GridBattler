@@ -1,0 +1,24 @@
+{
+    "Object": {
+        "rid": 1000
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "StepTowardsPlayer",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "ActionID": "StepToPlayerRow1",
+                    "MaxTravelDistance": 1.0,
+                    "TicksToTravel": 20,
+                    "Axis": 0
+                }
+            }
+        ]
+    }
+}

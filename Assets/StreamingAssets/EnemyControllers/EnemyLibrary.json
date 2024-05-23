@@ -1,0 +1,8 @@
+{
+    "Entries": [
+        {
+            "ID": "BasicArcher",
+            "ExpectedType": "IJsonObjectWrapper`1[EnemyActorController]"
+        }
+    ]
+}

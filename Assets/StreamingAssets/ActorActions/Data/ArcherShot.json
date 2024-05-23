@@ -1,0 +1,23 @@
+{
+    "Object": {
+        "rid": 1000
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "FireMovingProjectile",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "ActionID": "ArcherShot",
+                    "Damage": 20,
+                    "TicksToTravel": 10
+                }
+            }
+        ]
+    }
+}

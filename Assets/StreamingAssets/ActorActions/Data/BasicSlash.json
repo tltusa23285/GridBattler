@@ -1,0 +1,23 @@
+{
+    "Object": {
+        "rid": 1000
+    },
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "WSlashAction",
+                    "ns": "",
+                    "asm": "Assembly-CSharp"
+                },
+                "data": {
+                    "ActionID": "BasicSlash",
+                    "Dmg": 50,
+                    "Initial": 30
+                }
+            }
+        ]
+    }
+}

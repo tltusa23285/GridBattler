@@ -1,0 +1,28 @@
+{
+    "Entries": [
+        {
+            "ID": "BasicShoot",
+            "ExpectedType": "IJsonObjectWrapper`1[ActorAction]"
+        },
+        {
+            "ID": "BasicSlash",
+            "ExpectedType": "IJsonObjectWrapper`1[ActorAction]"
+        },
+        {
+            "ID": "_pStepUp",
+            "ExpectedType": "IJsonObjectWrapper`1[ActorAction]"
+        },
+        {
+            "ID": "_pStepDown",
+            "ExpectedType": "IJsonObjectWrapper`1[ActorAction]"
+        },
+        {
+            "ID": "_pStepLeft",
+            "ExpectedType": "IJsonObjectWrapper`1[ActorAction]"
+        },
+        {
+            "ID": "_pStepRight",
+            "ExpectedType": "IJsonObjectWrapper`1[ActorAction]"
+        }
+    ]
+}
