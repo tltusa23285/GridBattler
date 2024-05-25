@@ -10,6 +10,7 @@ public abstract class JsonLibraryEditorWindow<T> : EditorWindow where T : IJsonO
     protected GUIStyle RightPane;
 
     protected abstract T CurrentItem { get; set; }
+    protected abstract string CurrentItemClassLabel {  get; }
     protected abstract string LibraryFolder { get; }
     protected abstract string LibraryFile { get; }
     protected SerializedObject ThisObj;
@@ -96,6 +97,7 @@ public abstract class JsonLibraryEditorWindow<T> : EditorWindow where T : IJsonO
                 Setup();
             }
             EditorGUILayout.EndHorizontal();
+            EditorGUILayout.LabelField(CurrentItemClassLabel);
             EditorGUILayout.PropertyField(ThisProp, true);
             ThisObj.ApplyModifiedProperties();
         }

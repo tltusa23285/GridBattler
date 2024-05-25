@@ -12,8 +12,8 @@ public abstract class ActorAction : IJsonObject
     string IJsonObject.JsonID => ActionID;
 
     protected Actor Caller { get; private set; }
-    protected CombatManager CM => Caller.CM;
-    protected GridManager Grid => Caller.CM.Grid;
+    protected CombatManager Com => Caller.Com;
+    protected GridManager Grid => Caller.Com.Grid;
 
     public void Setup(Actor actor) 
     { 
@@ -43,15 +43,23 @@ public abstract class ActorAction : IJsonObject
 
     private HashSet<TickManager.TickCancelToken> CancelTokens = new HashSet<TickManager.TickCancelToken>();
 
-    protected void AddNext(Action action)
+    private ScheduledAction GenAction(Action action, string msg = default)
     {
-        CM.TickManager.RegisterToNextTick(action, out TickManager.TickCancelToken token);
+        return new ScheduledAction(
+            action,
+            $"[{Caller.ActorId}] Performing [{this.ActionID}] {msg}"
+            );
+    }
+
+    protected void AddNext(Action action, string msg = default)
+    {
+        Com.TickManager.RegisterToNextTick(GenAction(action, msg), out TickManager.TickCancelToken token);
         CancelTokens.Add(token);
     }
 
-    protected void AddFuture(in uint ticks, Action action)
+    protected void AddFuture(in uint ticks, Action action, string msg = default)
     {
-        CM.TickManager.RegisterToFutureTick(ticks, action, out TickManager.TickCancelToken token);
+        Com.TickManager.RegisterToFutureTick(ticks, GenAction(action, msg), out TickManager.TickCancelToken token);
         CancelTokens.Add(token);
     }
 

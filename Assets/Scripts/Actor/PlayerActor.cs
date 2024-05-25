@@ -36,11 +36,11 @@ public class PlayerActor : Actor, IDamagable
         base.OnSpawn();
         IJsonObjectWrapper<ActorAction> result;
         string j = string.Empty;
-        if (CM.ActionLibrary.GetItem("BasicShoot"   , out result)) (BasicAttack = result.Object).Setup(this);
-        if (CM.ActionLibrary.GetItem("_pStepUp"     , out result)) (StepUp      = result.Object).Setup(this);
-        if (CM.ActionLibrary.GetItem("_pStepDown"   , out result)) (StepDown    = result.Object).Setup(this);
-        if (CM.ActionLibrary.GetItem("_pStepLeft"   , out result)) (StepLeft    = result.Object).Setup(this);
-        if (CM.ActionLibrary.GetItem("_pStepRight"  , out result)) (StepRight   = result.Object).Setup(this);
+        if (Com.ActionLibrary.GetItem("BasicShoot"   , out result)) (BasicAttack = result.Object).Setup(this);
+        if (Com.ActionLibrary.GetItem("_pStepUp"     , out result)) (StepUp      = result.Object).Setup(this);
+        if (Com.ActionLibrary.GetItem("_pStepDown"   , out result)) (StepDown    = result.Object).Setup(this);
+        if (Com.ActionLibrary.GetItem("_pStepLeft"   , out result)) (StepLeft    = result.Object).Setup(this);
+        if (Com.ActionLibrary.GetItem("_pStepRight"  , out result)) (StepRight   = result.Object).Setup(this);
     }
 
 

@@ -3,14 +3,14 @@ using UnityEngine;
 public class StepAction : ActorAction
 {
     public Vector2Int Direction;
-    public float Duration = 0.15f;
-    public float Buffer = .05f;
+    public uint Duration = 10;
+    public uint InputBuffer = 5;
 
     public override void Execute(out uint ticksToResolve)
     {
-        ticksToResolve = CM.TickManager.TimeToTicks(Duration - Buffer);
+        ticksToResolve = Duration;
         Caller.PerformingAction = true;
         AddNext(() => Caller.TryMoveToCell(Direction, Duration));
-        AddFuture(ticksToResolve, ()=> Caller.PerformingAction = false);
+        AddFuture(Duration - InputBuffer, ()=> Caller.PerformingAction = false);
     }
 }

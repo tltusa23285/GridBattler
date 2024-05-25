@@ -26,6 +26,7 @@ public class EnemyEditorWindow : JsonLibraryEditorWindow<WEnemy>
             CurrentEnemy = ActiveEnemy.Object;
         }
     }
+    protected override string CurrentItemClassLabel => CurrentEnemy.GetType().ToString();
     protected override string LibraryFolder => EnemyActorController.LIB_FOLDER_NAME;
     protected override string LibraryFile => EnemyActorController.LIB_FILE_NAME;
 

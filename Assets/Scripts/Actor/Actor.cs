@@ -4,31 +4,31 @@ using UnityEngine;
 public abstract class Actor : MonoBehaviour
 {
     public enum FACING { Right, Left }
-    public CombatManager CM { get; protected set; }
+    public CombatManager Com { get; protected set; }
 
     [field: SerializeField] public FACING Facing { get; protected set; }
     [field: SerializeField] public ActorGraphicController GCon { get; protected set; }
 
     protected Vector2Int Pos;
     public Vector2Int Position => Pos;
-
     private Coroutine MoveCo;
 
     public bool PerformingAction { get; set; }
+    public virtual string ActorId { get => this.gameObject.name; protected set => this.gameObject.name = value; }
 
     public void Spawn(CombatManager cm, in int x, in int y)
     {
-        CM = cm;
+        Com = cm;
 
-        if (!CM.Grid.InBounds(x, y) || !CM.Grid.Occupancy.TryOccupyCell(this, x, y))
+        if (!Com.Grid.InBounds(x, y) || !Com.Grid.Occupancy.TryOccupyCell(this, x, y))
         {
             Debug.LogError($"Failed to place actor on {x},{y}");
         }
         else
         {
-            CM.Grid.Occupancy.TryOccupyCell(this, x, y);
+            Com.Grid.Occupancy.TryOccupyCell(this, x, y);
             Pos.x = x; Pos.y = y;
-            this.transform.position = CM.Grid.CoordsToWorldPosition(x, y);
+            this.transform.position = Com.Grid.CoordsToWorldPosition(x, y);
         }
 
         switch (Facing)
@@ -51,27 +51,27 @@ public abstract class Actor : MonoBehaviour
     public void Despawn()
     {
         CancelActions();
-        CM.Grid.Occupancy.TryUnOccupyCell(this, Pos.x, Pos.y);
+        Com.Grid.Occupancy.TryUnOccupyCell(this, Pos.x, Pos.y);
         Destroy(this.gameObject);
     }
     protected abstract void CancelActions();
 
     #region Movement
-    public bool TryMoveToCell(Vector2Int direction, float lerpDuration = 0.15f)
+    public bool TryMoveToCell(Vector2Int direction, uint tickDuration)
     {
-        return TryMoveToCell(Position.x + direction.x, Position.y + direction.y, lerpDuration);
+        return TryMoveToCell(Position.x + direction.x, Position.y + direction.y, tickDuration);
     }
 
-    public bool TryMoveToCell(in int x, in int y, float lerpDuration = 0.15f)
+    public bool TryMoveToCell(in int x, in int y, uint tickDuration)
     {
-        if (!CM.Grid.InBounds(x, y) || CM.Grid.Occupancy.CellHasOccupant(x, y)) return false;
-        if (!CM.Grid.Occupancy.TryUnOccupyCell(this, Pos.x, Pos.y)) return false;
-        if (!CM.Grid.Occupancy.TryOccupyCell(this, x, y)) return false;
+        if (!Com.Grid.InBounds(x, y) || Com.Grid.Occupancy.CellHasOccupant(x, y)) return false;
+        if (!Com.Grid.Occupancy.TryUnOccupyCell(this, Pos.x, Pos.y)) return false;
+        if (!Com.Grid.Occupancy.TryOccupyCell(this, x, y)) return false;
 
         Pos.x = x; Pos.y = y;
 
         if (MoveCo != null) StopCoroutine(MoveCo);
-        MoveCo = StartCoroutine(LerpMove(CM.Grid.CoordsToWorldPosition(x, y), lerpDuration));
+        MoveCo = StartCoroutine(LerpMove(Com.Grid.CoordsToWorldPosition(x, y), Com.TickManager.TicksToTime(tickDuration)));
 
         return true;
     }

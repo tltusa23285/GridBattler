@@ -29,6 +29,7 @@ public class ActionEditorWindow : JsonLibraryEditorWindow<WAction>
             CurrentAction = ActiveAction.Object;
         }
     }
+    protected override string CurrentItemClassLabel => CurrentAction.GetType().ToString();
 
     protected override string LibraryFolder => ActorAction.LIB_FOLDER_NAME;
     protected override string LibraryFile => ActorAction.LIB_FILE_NAME;

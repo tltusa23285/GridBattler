@@ -11,7 +11,7 @@ public class StepTowardsPlayer : ActorAction
     {
         ticksToResolve = 0;
         Vector2Int caller_pos = Caller.Position;
-        Vector2Int player_pos = Caller.CM.Player.Position;
+        Vector2Int player_pos = Caller.Com.Player.Position;
         switch (Axis)
         {
             case AxisType.Vertical:
@@ -21,7 +21,7 @@ public class StepTowardsPlayer : ActorAction
                     () => Caller.TryMoveToCell(
                         caller_pos.x,
                         caller_pos.y + (int)Mathf.Clamp((player_pos.y - caller_pos.y), -MaxTravelDistance, MaxTravelDistance),
-                        Caller.CM.TickManager.TicksToTime(TicksToTravel)));
+                        TicksToTravel));
                 break;
             case AxisType.Horizontal:
                 if (caller_pos.x == player_pos.x) break;
@@ -30,7 +30,7 @@ public class StepTowardsPlayer : ActorAction
                     () => Caller.TryMoveToCell(
                         caller_pos.x + (int)Mathf.Clamp(player_pos.x - caller_pos.x, -MaxTravelDistance, MaxTravelDistance),
                         caller_pos.y,
-                        Caller.CM.TickManager.TicksToTime(TicksToTravel)));
+                        TicksToTravel));
                 break;
             default: throw new System.NotImplementedException();
         }

@@ -15,7 +15,7 @@ public class GridRenderer
         GameObject go;
         foreach (var item in Grid.Cells)
         {
-            go = GameObject.Instantiate(prefab, Grid.CM.transform);
+            go = GameObject.Instantiate(prefab, Grid.Com.transform);
             Tiles[item.x, item.y] = go.GetComponent<CellGraphicController>();
             Tiles[item.x, item.y].Position = CoordsToWorldPositon(item.x, item.y);
         }

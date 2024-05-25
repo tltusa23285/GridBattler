@@ -10,7 +10,7 @@ public class ShootAction : ActorAction
 
     public override void Execute(out uint ticksToResolve)
     {
-        AddNext(() => Caller.GCon.TryPlayAnim("ShootAction", CM.TickManager.TicksToTime(LockTime)));
+        AddNext(() => Caller.GCon.TryPlayAnim("ShootAction", Com.TickManager.TicksToTime(LockTime)));
 
         List<Vector2Int> targets = Grid.GetRowToEdge(Caller.Position, Caller.Facing == Actor.FACING.Right ? 1 : -1);
 
@@ -29,7 +29,7 @@ public class ShootAction : ActorAction
     {
         foreach (var item in targets)
         {
-            caller.CM.Grid.Renderer.SetTargetFlash(item.x, item.y, on);
+            caller.Com.Grid.Renderer.SetTargetFlash(item.x, item.y, on);
         }
     }
 
@@ -37,7 +37,7 @@ public class ShootAction : ActorAction
     {
         foreach (var item in targets)
         {
-            if (caller.CM.Grid.Occupancy.GetOccupantInCell(item.x,item.y, out Actor a))
+            if (caller.Com.Grid.Occupancy.GetOccupantInCell(item.x,item.y, out Actor a))
             {
                 if (a is IDamagable)
                 {

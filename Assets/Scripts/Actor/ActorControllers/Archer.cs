@@ -13,7 +13,7 @@ public class Archer : EnemyActorController
     private uint ActionTicks;
     public override void AIStep()
     {
-        if (Caller.Position.y != Caller.CM.Player.Position.y)
+        if (Caller.Position.y != Caller.Com.Player.Position.y)
         {
             MoveAction.Execute(out ActionTicks);
         }
@@ -21,18 +21,18 @@ public class Archer : EnemyActorController
         {
             AttackAction.Execute(out ActionTicks);
         }
-        AddFuture(CM.TickManager.TimeToTicks(TimeBetweenActions) + ActionTicks, AIStep);
+        AddFuture(Com.TickManager.TimeToTicks(TimeBetweenActions) + ActionTicks, AIStep);
     }
 
     protected override bool OnSetup()
     {
         IJsonObjectWrapper<ActorAction> result;
-        if (!CM.ActionLibrary.GetItem(AttackActionID, out result)) return false;
+        if (!Com.ActionLibrary.GetItem(AttackActionID, out result)) return false;
         (AttackAction = result.Object).Setup(Caller);
-        if (!CM.ActionLibrary.GetItem(MoveActionID, out result)) return false;
+        if (!Com.ActionLibrary.GetItem(MoveActionID, out result)) return false;
         (MoveAction = result.Object).Setup(Caller);
 
-        AddFuture(base.Caller.CM.TickManager.TimeToTicks(TimeBetweenActions), AIStep);
+        AddFuture(base.Caller.Com.TickManager.TimeToTicks(TimeBetweenActions), AIStep);
 
         return true;
     }

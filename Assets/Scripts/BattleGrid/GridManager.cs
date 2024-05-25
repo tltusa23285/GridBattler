@@ -15,13 +15,13 @@ public class GridManager
     public GridRenderer Renderer { get; private set; }
     public OccupancyTracker Occupancy { get; private set; }
 
-    public readonly CombatManager CM;
+    public readonly CombatManager Com;
     public readonly Vector2Int GridSize;
     public readonly GridCell[,] Cells;
 
     public GridManager(CombatManager cm, int width, int height)
     {
-        CM = cm;
+        Com = cm;
         GridSize = new Vector2Int(width, height);
         Cells = new GridCell[width, height];
         for (int x = 0; x < width; x++)

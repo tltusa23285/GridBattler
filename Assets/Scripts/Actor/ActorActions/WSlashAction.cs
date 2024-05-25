@@ -5,10 +5,10 @@ public class WSlashAction : ActorAction
     public override void Execute(out uint ticksToResolve)
     {
         ticksToResolve = 15;
-        AddNext(() => Caller.GCon.TryPlayAnim("ShootAction", Caller.CM.TickManager.TicksToTime(5)));
-        AddNext(() => Caller.TryMoveToCell(Caller.Position.x + 2, Caller.Position.y, Caller.CM.TickManager.TicksToTime(5)));
+        AddNext(() => Caller.GCon.TryPlayAnim("ShootAction", Caller.Com.TickManager.TicksToTime(5)));
+        AddNext(() => Caller.TryMoveToCell(Caller.Position.x + 2, Caller.Position.y, 5));
         AddFuture(5, () => PerformAttack());
-        AddFuture(5, () => Caller.TryMoveToCell(Caller.Position.x-2, Caller.Position.y, Caller.CM.TickManager.TicksToTime(5)));
+        AddFuture(5, () => Caller.TryMoveToCell(Caller.Position.x-2, Caller.Position.y, 5));
         Caller.PerformingAction = true;
         AddFuture(15, () => Caller.PerformingAction = false);
     }
@@ -27,8 +27,8 @@ public class WSlashAction : ActorAction
 
         for (int i = 0; i < 3; i++)
         {
-            if (!(CM.Grid.InBounds(x, y - i))) continue;
-            if (CM.Grid.Occupancy.GetOccupantInCell(x, y - i, out Actor a))
+            if (!(Com.Grid.InBounds(x, y - i))) continue;
+            if (Com.Grid.Occupancy.GetOccupantInCell(x, y - i, out Actor a))
             {
                 if (a is IDamagable)
                 {
