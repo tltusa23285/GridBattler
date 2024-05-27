@@ -10,7 +10,7 @@ public class ShootAction : ActorAction
 
     public override void Execute(out uint ticksToResolve)
     {
-        AddNext(() => Caller.GraphicControl.TryPlayAnim("ShootAction", Com.TickManager.TicksToTime(LockTime)));
+        AddNext(() => Caller.GraphicControl.TryPlayAnim("ShootAction", LockTime));
 
         List<Vector2Int> targets = Grid.GetRowToEdge(Caller.Position, Caller.Facing == Actor.FACING.Right ? 1 : -1);
 

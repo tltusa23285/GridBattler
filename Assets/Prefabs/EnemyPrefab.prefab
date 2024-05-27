@@ -317,6 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anim: {fileID: 2383282623779619115}
+  Actor: {fileID: 7699329772341766741}
 --- !u!1 &2928680476299852034
 GameObject:
   m_ObjectHideFlags: 0

@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Facing>k__BackingField: 0
-  <GCon>k__BackingField: {fileID: 7793556962084791239}
+  <GraphicControl>k__BackingField: {fileID: 7793556962084791239}
   ActorUI: {fileID: 7829092138899650325}
   MaxHealth: 100
 --- !u!114 &7793556962084791239
@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anim: {fileID: 2724322873473428520}
+  Actor: {fileID: 7610121932642832791}
 --- !u!1 &3046293189517133591
 GameObject:
   m_ObjectHideFlags: 0
