@@ -5,7 +5,7 @@ using WEnemy = IJsonObjectWrapper<EnemyActorController>;
 
 public class CombatManager : MonoBehaviour
 {
-    public const uint TICKS_PER_SECOND = 60;
+    public const uint TICKS_PER_SECOND = 2;
     [field:SerializeField] public CameraController CameraController { get; private set; }
     public GridManager Grid {  get; private set; }
     public Actor Player { get; private set; }

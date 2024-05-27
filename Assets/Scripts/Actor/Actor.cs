@@ -4,6 +4,7 @@ using UnityEngine.AddressableAssets;
 
 public abstract class Actor : MonoBehaviour
 {
+    #region Static
     /// <summary>
     /// Instantiates an Actor Instance
     /// Handles loading and instantion of an object
@@ -13,9 +14,9 @@ public abstract class Actor : MonoBehaviour
     {
         result = null;
         GameObject go = Addressables.LoadAssetAsync<GameObject>(toSpawn).WaitForCompletion();
-        if(go == null)
+        if (go == null)
         {
-            Debug.LogError($"No asset of id {toSpawn}"); 
+            Debug.LogError($"No asset of id {toSpawn}");
             return false;
         }
 
@@ -25,13 +26,14 @@ public abstract class Actor : MonoBehaviour
             Debug.LogError($"Asset is missing Actor component {toSpawn}");
             return false;
         }
-        if(!result.Spawn(cm, x, y))
+        if (!result.Spawn(cm, x, y))
         {
             Debug.LogError($"Failed to spawn {toSpawn} at [{x},{y}]");
             return false;
         }
         return true;
-    }
+    } 
+    #endregion
 
     public enum FACING { Right, Left }
     public CombatManager Com { get; protected set; }
@@ -41,6 +43,7 @@ public abstract class Actor : MonoBehaviour
 
     protected Vector2Int Pos;
     public Vector2Int Position => Pos;
+    private Vector3 WorldPosition;
     private Coroutine MoveCo;
 
     public bool PerformingAction { get; set; }
@@ -65,7 +68,8 @@ public abstract class Actor : MonoBehaviour
         {
             Com.Grid.Occupancy.TryOccupyCell(this, x, y);
             Pos.x = x; Pos.y = y;
-            this.transform.position = Com.Grid.CoordsToWorldPosition(x, y);
+            WorldPosition = Com.Grid.CoordsToWorldPosition(x, y);
+            this.transform.position = WorldPosition;
         }
 
         switch (Facing)
@@ -108,23 +112,33 @@ public abstract class Actor : MonoBehaviour
         Pos.x = x; Pos.y = y;
 
         if (MoveCo != null) StopCoroutine(MoveCo);
-        MoveCo = StartCoroutine(LerpMove(Com.Grid.CoordsToWorldPosition(x, y), Com.TickManager.TicksToTime(tickDuration)));
+        MoveCo = StartCoroutine(LerpMove(Com.Grid.CoordsToWorldPosition(x, y), tickDuration));
 
         return true;
     }
 
-    IEnumerator LerpMove(Vector3 target, float lerpDuration)
+    IEnumerator LerpMove(Vector3 target, uint duration)
     {
-        float t = 0;
-        Vector3 start = this.transform.position;
-        while (t < 1)
+        Vector3 start = WorldPosition;
+
+        ulong start_time = Com.TickManager.CurrentTick;
+        ulong end_time = start_time + duration;
+
+        while (true)
         {
-            t += Time.deltaTime / lerpDuration;
-            this.transform.position = Vector3.Lerp(start, target, t);
+            if (Com.TickManager.CurrentTick == end_time) break;
+            WorldPosition = Vector3.Lerp(start, target, 
+                Mathf.InverseLerp(start_time,end_time, Com.TickManager.CurrentTick));
             yield return null;
         }
-        this.transform.position = target;
+
+        WorldPosition = target;
         MoveCo = null;
-    } 
+    }
     #endregion
+
+    private void LateUpdate()
+    {
+        this.transform.position = Vector3.MoveTowards(this.transform.position, WorldPosition, Time.deltaTime / Com.TickManager.TickRate);
+    }
 }
