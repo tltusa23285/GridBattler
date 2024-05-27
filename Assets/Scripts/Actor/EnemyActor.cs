@@ -2,44 +2,36 @@ using UnityEngine;
 
 public class EnemyActor : Actor, IDamagable
 {
+    public string EnemyController;
     [SerializeField] private ActorCanvas ActorUI;
 
     public EnemyActorController Controller { get; private set; }
 
     private void Awake()
     {
-        AwakeDamagable();
+        CurrentHealth = MaxHealth;
     }
     void Start()
     {
-        StartDamagable();
+        ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
     }
-
-    private ActorAction Attack;
 
     public void SetController(EnemyActorController con)
     {
         Controller = con;
         Controller.Setup(this);
     }
-    protected override void OnSpawn()
+    protected override bool OnSpawn()
     {
-        Attack = new ShootAction();
+        if (!Com.EnemyLibrary.GetItem(EnemyController, out var result)) return false;
+        SetController(result.Object);
+        return true;
     }
 
     #region IDamageable
     [Header("Damageable")]
     private int CurrentHealth;
     public int MaxHealth = 100;
-
-    private void AwakeDamagable()
-    {
-        CurrentHealth = MaxHealth;
-    }
-    private void StartDamagable()
-    {
-        ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
-    }
 
     float IDamagable.CurrentHealth => CurrentHealth;
     float IDamagable.MaxHealth => MaxHealth;

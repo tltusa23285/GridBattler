@@ -31,16 +31,17 @@ public class PlayerActor : Actor, IDamagable
         if (Input.GetKeyDown(KeyCode.J)) BasicAttack.Execute(out _);
     }
 
-    protected override void OnSpawn()
+    protected override bool OnSpawn()
     {
         base.OnSpawn();
         IJsonObjectWrapper<ActorAction> result;
-        string j = string.Empty;
         if (Com.ActionLibrary.GetItem("BasicShoot"   , out result)) (BasicAttack = result.Object).Setup(this);
         if (Com.ActionLibrary.GetItem("_pStepUp"     , out result)) (StepUp      = result.Object).Setup(this);
         if (Com.ActionLibrary.GetItem("_pStepDown"   , out result)) (StepDown    = result.Object).Setup(this);
         if (Com.ActionLibrary.GetItem("_pStepLeft"   , out result)) (StepLeft    = result.Object).Setup(this);
         if (Com.ActionLibrary.GetItem("_pStepRight"  , out result)) (StepRight   = result.Object).Setup(this);
+
+        return true;
     }
 
 

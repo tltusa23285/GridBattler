@@ -5,7 +5,7 @@ public class WSlashAction : ActorAction
     public override void Execute(out uint ticksToResolve)
     {
         ticksToResolve = 15;
-        AddNext(() => Caller.GCon.TryPlayAnim("ShootAction", Caller.Com.TickManager.TicksToTime(5)));
+        AddNext(() => Caller.GraphicControl.TryPlayAnim("ShootAction", Caller.Com.TickManager.TicksToTime(5)));
         AddNext(() => Caller.TryMoveToCell(Caller.Position.x + 2, Caller.Position.y, 5));
         AddFuture(5, () => PerformAttack());
         AddFuture(5, () => Caller.TryMoveToCell(Caller.Position.x-2, Caller.Position.y, 5));

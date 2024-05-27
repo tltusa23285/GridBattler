@@ -300,7 +300,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Facing>k__BackingField: 1
-  <GCon>k__BackingField: {fileID: 2464063625258581005}
+  <GraphicControl>k__BackingField: {fileID: 0}
+  EnemyController: BasicArcher
   ActorUI: {fileID: 5277918295123736922}
   MaxHealth: 100
 --- !u!114 &2464063625258581005

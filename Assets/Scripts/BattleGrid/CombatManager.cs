@@ -8,7 +8,7 @@ public class CombatManager : MonoBehaviour
     public const uint TICKS_PER_SECOND = 60;
     [field:SerializeField] public CameraController CameraController { get; private set; }
     public GridManager Grid {  get; private set; }
-    public PlayerActor Player { get; private set; }
+    public Actor Player { get; private set; }
     public TickManager TickManager { get; private set; }
     public JsonObjectLibrary<WAction> ActionLibrary { get; private set; }
     public JsonObjectLibrary<WEnemy> EnemyLibrary { get; private set; }
@@ -23,21 +23,10 @@ public class CombatManager : MonoBehaviour
 
     private void Start()
     {
-        GameObject player = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab").WaitForCompletion();
+        Actor.Instantiate(this, "PlayerPrefab", 1, 1, out Actor p_Actor);
+        Player = p_Actor;
 
-        GameObject go = Instantiate(player);
-        Player = go.GetComponent<PlayerActor>();
-        Player.Spawn(this, 1, 1);
-
-        if (EnemyLibrary.GetItem("BasicArcher", out WEnemy result))
-        {
-            EnemyActorController con = result.Object;
-            GameObject enemy = Addressables.LoadAssetAsync<GameObject>(con.Prefab).WaitForCompletion(); 
-            
-            go = Instantiate(enemy);
-            go.GetComponent<Actor>().Spawn(this, 4, 2);
-            go.GetComponent<EnemyActor>().SetController(con);
-        }
+        Actor.Instantiate(this, "EnemyPrefab", 4, 2, out _);
     }
 
     private void Update()

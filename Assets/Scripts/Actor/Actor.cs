@@ -1,13 +1,43 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public abstract class Actor : MonoBehaviour
 {
+    /// <summary>
+    /// Instantiates an Actor Instance
+    /// Handles loading and instantion of an object
+    /// </summary>
+    /// <returns></returns>
+    public static bool Instantiate(CombatManager cm, string toSpawn, in int x, in int y, out Actor result)
+    {
+        result = null;
+        GameObject go = Addressables.LoadAssetAsync<GameObject>(toSpawn).WaitForCompletion();
+        if(go == null)
+        {
+            Debug.LogError($"No asset of id {toSpawn}"); 
+            return false;
+        }
+
+        go = Instantiate(go);
+        if (!go.TryGetComponent(out result))
+        {
+            Debug.LogError($"Asset is missing Actor component {toSpawn}");
+            return false;
+        }
+        if(!result.Spawn(cm, x, y))
+        {
+            Debug.LogError($"Failed to spawn {toSpawn} at [{x},{y}]");
+            return false;
+        }
+        return true;
+    }
+
     public enum FACING { Right, Left }
     public CombatManager Com { get; protected set; }
 
     [field: SerializeField] public FACING Facing { get; protected set; }
-    [field: SerializeField] public ActorGraphicController GCon { get; protected set; }
+    [field: SerializeField] public ActorGraphicController GraphicControl { get; protected set; }
 
     protected Vector2Int Pos;
     public Vector2Int Position => Pos;
@@ -16,7 +46,14 @@ public abstract class Actor : MonoBehaviour
     public bool PerformingAction { get; set; }
     public virtual string ActorId { get => this.gameObject.name; protected set => this.gameObject.name = value; }
 
-    public void Spawn(CombatManager cm, in int x, in int y)
+    /// <summary>
+    /// Initializes the actor
+    /// </summary>
+    /// <param name="cm"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <exception cref="System.NotImplementedException"></exception>
+    private bool Spawn(CombatManager cm, in int x, in int y)
     {
         Com = cm;
 
@@ -43,10 +80,10 @@ public abstract class Actor : MonoBehaviour
                 throw new System.NotImplementedException();
         }
 
-        OnSpawn();
+        return OnSpawn();
     }
 
-    protected virtual void OnSpawn() { }
+    protected virtual bool OnSpawn() { return true; }
 
     public void Despawn()
     {
