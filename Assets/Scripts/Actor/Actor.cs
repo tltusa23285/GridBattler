@@ -45,8 +45,6 @@ public abstract class Actor : MonoBehaviour
     public Vector2Int Position => Pos;
     private Vector3 WorldPosition;
     private Coroutine MoveCo;
-
-    public bool PerformingAction { get; set; }
     public virtual string ActorId { get => this.gameObject.name; protected set => this.gameObject.name = value; }
 
     /// <summary>

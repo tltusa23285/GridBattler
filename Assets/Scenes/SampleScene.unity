@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CameraController>k__BackingField: {fileID: 831518820}
-  DebugMode: 0
+  DebugMode: 1
   SlowPlayTPS: 3
 --- !u!1 &330585543
 GameObject:

@@ -19,9 +19,6 @@ public class ShootAction : ActorAction
 
         AddFuture(Startup, () => PerformAttack(Caller,targets));
 
-        Caller.PerformingAction = true;
-        AddFuture(LockTime, () => Caller.PerformingAction = false);
-
         ticksToResolve = LockTime;
     }
 

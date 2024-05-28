@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Facing>k__BackingField: 0
   <GraphicControl>k__BackingField: {fileID: 7793556962084791239}
+  InputBuffer: 5
   ActorUI: {fileID: 7829092138899650325}
   MaxHealth: 100
 --- !u!114 &7793556962084791239

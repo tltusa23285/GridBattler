@@ -9,8 +9,6 @@ public class WSlashAction : ActorAction
         AddNext(() => Caller.TryMoveToCell(Caller.Position.x + 2, Caller.Position.y, 5));
         AddFuture(5, () => PerformAttack());
         AddFuture(5, () => Caller.TryMoveToCell(Caller.Position.x-2, Caller.Position.y, 5));
-        Caller.PerformingAction = true;
-        AddFuture(15, () => Caller.PerformingAction = false);
     }
 
     private void PerformAttack()

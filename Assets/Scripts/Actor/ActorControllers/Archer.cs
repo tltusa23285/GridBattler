@@ -13,7 +13,7 @@ public class Archer : EnemyActorController
     private uint ActionTicks;
     public override void AIStep()
     {
-        if (Caller.Position.y != Caller.Com.Player.Position.y)
+        if (Caller.Position.y != Caller.Com.PlayerActor.Position.y)
         {
             MoveAction.Execute(out ActionTicks);
         }

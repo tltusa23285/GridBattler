@@ -7,10 +7,12 @@ public class CombatManager : MonoBehaviour
     public const uint TICKS_PER_SECOND = 60;
     [field:SerializeField] public CameraController CameraController { get; private set; }
     public GridManager Grid {  get; private set; }
-    public Actor Player { get; private set; }
+    public Actor PlayerActor { get; private set; }
     public TickManager TickManager { get; private set; }
     public JsonObjectLibrary<WAction> ActionLibrary { get; private set; }
     public JsonObjectLibrary<WEnemy> EnemyLibrary { get; private set; }
+
+    private CombatPlayer LocalPlayer;
 
     private void Awake()
     {
@@ -23,13 +25,15 @@ public class CombatManager : MonoBehaviour
     private void Start()
     {
         Actor.Instantiate(this, "PlayerPrefab", 1, 1, out Actor p_Actor);
-        Player = p_Actor;
+        PlayerActor = p_Actor;
+        LocalPlayer = new CombatPlayer((PlayerActor)PlayerActor);
 
         Actor.Instantiate(this, "EnemyPrefab", 4, 2, out _);
     }
 
     private void Update()
     {
+        LocalPlayer.HandleInput();
         if (DebugMode) DebugUpdate();
         else GameUpdate();
     }

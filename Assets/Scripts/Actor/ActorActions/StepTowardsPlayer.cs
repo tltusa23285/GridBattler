@@ -11,7 +11,7 @@ public class StepTowardsPlayer : ActorAction
     {
         ticksToResolve = 0;
         Vector2Int caller_pos = Caller.Position;
-        Vector2Int player_pos = Caller.Com.Player.Position;
+        Vector2Int player_pos = Caller.Com.PlayerActor.Position;
         switch (Axis)
         {
             case AxisType.Vertical:
