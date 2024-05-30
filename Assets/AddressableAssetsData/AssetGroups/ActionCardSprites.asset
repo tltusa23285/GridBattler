@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ActionCardSprites
+  m_EditorClassIdentifier: 
+  m_GroupName: ActionCardSprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1ccd1e8dd4d83f44191b1f388783cbff
+  m_SerializeEntries:
+  - m_GUID: 05cc620c30bc90b46b00109c81a59d35
+    m_Address: WSlash
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 032bb1d479e11fd458d8f85b59fa3549
+    m_Address: BShoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: b6d3166b7dd76cd4ba3baa89588c7403, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1c5b967054e868e42a61fd87f2066963, type: 2}
+    - {fileID: 11400000, guid: 659ccaebff0570244bc1c082d35c6371, type: 2}

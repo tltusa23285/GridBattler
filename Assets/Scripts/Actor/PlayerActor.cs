@@ -13,7 +13,7 @@ public class PlayerActor : Actor, IDamagable
     private ActorAction StepLeft;
     private ActorAction StepRight;
 
-    public uint InputBuffer;
+    public uint InputBuffer = 5;
     private ulong NextFreeTick;
     private ActorAction CurrentAction;
     private ActorAction BufferedAction;

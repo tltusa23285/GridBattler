@@ -14,6 +14,13 @@
                 },
                 "data": {
                     "ActionID": "BasicSlash",
+                    "Info": {
+                        "Name": "Step Slash",
+                        "Image": "WSlash",
+                        "Thumbnail": "WSlash",
+                        "Damage": 50,
+                        "Description": ""
+                    },
                     "Dmg": 50,
                     "Initial": 30
                 }
