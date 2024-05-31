@@ -14,3 +14,15 @@ public struct ActionInfoData
     public int Damage;
     [TextArea(2,4)]public string Description;
 }
+
+[System.Serializable]
+public struct ActionList : IJsonObject
+{
+    public const string LIB_FOLDER_NAME = "ActionLists";
+    public const string LIB_FILE_NAME = "ActionListLibrary";
+
+    public string JsonID => ListId;
+    public string ListId;
+
+    public string[] Actions;
+}
