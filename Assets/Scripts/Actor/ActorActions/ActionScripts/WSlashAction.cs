@@ -1,38 +1,44 @@
-public class WSlashAction : ActorAction
+using GBGame.Interfaces;
+
+namespace GBGame.Actors.Actions
 {
-    public int Dmg = 30;
-    public uint Initial = 30;
-    public override void Execute(out uint ticksToResolve)
+    public class WSlashAction : ActorAction
     {
-        ticksToResolve = 15;
-        AddNext(() => Caller.GraphicControl.TryPlayAnim("ShootAction", 5));
-        AddNext(() => Caller.TryMoveToCell(Caller.Position.x + 2, Caller.Position.y, 5));
-        AddFuture(5, () => PerformAttack());
-        AddFuture(5, () => Caller.TryMoveToCell(Caller.Position.x-2, Caller.Position.y, 5));
-    }
-
-    private void PerformAttack()
-    {
-        int x = Caller.Position.x;
-        int y = Caller.Position.y+1;
-
-        switch (Caller.Facing)
+        public int Dmg = 30;
+        public uint Initial = 30;
+        public override void Execute(out uint ticksToResolve)
         {
-            case Actor.FACING.Right: x++; break;
-            case Actor.FACING.Left: x--; break;
-            default: throw new System.NotImplementedException();
+            ticksToResolve = 15;
+            AddNext(() => Caller.GraphicControl.TryPlayAnim("ShootAction", 5));
+            AddNext(() => Caller.TryMoveToCell(Caller.Position.x + 2, Caller.Position.y, 5));
+            AddFuture(5, () => PerformAttack());
+            AddFuture(5, () => Caller.TryMoveToCell(Caller.Position.x - 2, Caller.Position.y, 5));
         }
-
-        for (int i = 0; i < 3; i++)
+            
+        private void PerformAttack()
         {
-            if (!(Com.Grid.InBounds(x, y - i))) continue;
-            if (Com.Grid.Occupancy.GetOccupantInCell(x, y - i, out Actor a))
+            int x = Caller.Position.x;
+            int y = Caller.Position.y + 1;
+
+            switch (Caller.Facing)
             {
-                if (a is IDamagable)
+                case Actor.FACING.Right: x++; break;
+                case Actor.FACING.Left: x--; break;
+                default: throw new System.NotImplementedException();
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (!(Com.Grid.InBounds(x, y - i))) continue;
+                if (Com.Grid.Occupancy.GetOccupantInCell(x, y - i, out Actor a))
                 {
-                    ((IDamagable)a).Damage(Dmg);
+                    if (a is IDamagable)
+                    {
+                        ((IDamagable)a).Damage(Dmg);
+                    }
                 }
             }
         }
     }
+
 }

@@ -1,49 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.AddressableAssets;
 using Text = TMPro.TextMeshProUGUI;
+using GBGame.Data;
 
-public class ActionCard : MonoBehaviour
+namespace GBGame.Actors
 {
-    [SerializeField] bool IsMiniCard = false;
-
-    [Header("Refs")]
-    [SerializeField] private Image Image;
-    [SerializeField] private Text NameText;
-    [SerializeField] private Text DescriptionText;
-    [SerializeField] private Text DamageText;
-
-    [Header("Debug")]
-    public ActionInfoData ActionInfoDebug;
-    [ContextMenu("Load Debug")]
-    private void TestCard()
+    public class ActionCard : MonoBehaviour
     {
-        FillCard(ActionInfoDebug);
-    }
+        [SerializeField] bool IsMiniCard = false;
 
-    public void FillCard(in ActionInfoData data)
-    {
-        if(IsMiniCard) FillMini(data);
-        else FillFull(data);
-    }
+        [Header("Refs")]
+        [SerializeField] private Image Image;
+        [SerializeField] private Text NameText;
+        [SerializeField] private Text DescriptionText;
+        [SerializeField] private Text DamageText;
 
-    private void FillFull(in ActionInfoData data)
-    {
-        Sprite spr = Addressables.LoadAssetAsync<Sprite>(data.Image).WaitForCompletion();
-        if (spr == null) Debug.LogWarning($"Given image was null {data.Image}");
-        Image.sprite = spr;
-        NameText.text = data.Name;
-        DescriptionText.text = data.Description;
-        DamageText.text = data.Damage.ToString();
-    }
+        [Header("Debug")]
+        public ActionInfoData ActionInfoDebug;
+        [ContextMenu("Load Debug")]
+        private void TestCard()
+        {
+            FillCard(ActionInfoDebug);
+        }
 
-    private void FillMini(in ActionInfoData data)
-    {
-        Sprite spr = Addressables.LoadAssetAsync<Sprite>(data.Thumbnail).WaitForCompletion();
-        if (spr == null) Debug.LogWarning($"Given image was null {data.Thumbnail}");
-        Image.sprite = spr;
-    }
+        public void FillCard(in ActionInfoData data)
+        {
+            if (IsMiniCard) FillMini(data);
+            else FillFull(data);
+        }
+
+        private void FillFull(in ActionInfoData data)
+        {
+            Sprite spr = Addressables.LoadAssetAsync<Sprite>(data.Image).WaitForCompletion();
+            if (spr == null) Debug.LogWarning($"Given image was null {data.Image}");
+            Image.sprite = spr;
+            NameText.text = data.Name;
+            DescriptionText.text = data.Description;
+            DamageText.text = data.Damage.ToString();
+        }
+
+        private void FillMini(in ActionInfoData data)
+        {
+            Sprite spr = Addressables.LoadAssetAsync<Sprite>(data.Thumbnail).WaitForCompletion();
+            if (spr == null) Debug.LogWarning($"Given image was null {data.Thumbnail}");
+            Image.sprite = spr;
+        }
+    } 
 }

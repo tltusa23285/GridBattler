@@ -1,30 +1,33 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class GridRenderer
+namespace GBGame
 {
-    private GridManager Grid;
-
-    private CellGraphicController[,] Tiles;
-
-    public GridRenderer(GridManager grid)
+    public class GridRenderer
     {
-        Grid = grid;
-        Tiles = new CellGraphicController[grid.GridSize.x, grid.GridSize.y];
-        GameObject prefab = Addressables.LoadAssetAsync<GameObject>("TilePrefab").WaitForCompletion();
-        GameObject go;
-        foreach (var item in Grid.Cells)
+        private GridManager Grid;
+
+        private CellGraphicController[,] Tiles;
+
+        public GridRenderer(GridManager grid)
         {
-            go = GameObject.Instantiate(prefab, Grid.Com.transform);
-            Tiles[item.x, item.y] = go.GetComponent<CellGraphicController>();
-            Tiles[item.x, item.y].Position = CoordsToWorldPositon(item.x, item.y);
+            Grid = grid;
+            Tiles = new CellGraphicController[grid.GridSize.x, grid.GridSize.y];
+            GameObject prefab = Addressables.LoadAssetAsync<GameObject>("TilePrefab").WaitForCompletion();
+            GameObject go;
+            foreach (var item in Grid.Cells)
+            {
+                go = GameObject.Instantiate(prefab, Grid.Com.transform);
+                Tiles[item.x, item.y] = go.GetComponent<CellGraphicController>();
+                Tiles[item.x, item.y].Position = CoordsToWorldPositon(item.x, item.y);
+            }
         }
-    }
 
-    public Vector3 CoordsToWorldPositon(in int x, in int y)
-    {
-        return new Vector3(x, 0, y);
-    }
+        public Vector3 CoordsToWorldPositon(in int x, in int y)
+        {
+            return new Vector3(x, 0, y);
+        }
 
-    public void SetTargetFlash(in int x, in int y, bool on) => Tiles[x, y].SetTargetFlash(on);
+        public void SetTargetFlash(in int x, in int y, bool on) => Tiles[x, y].SetTargetFlash(on);
+    } 
 }

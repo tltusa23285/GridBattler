@@ -1,4 +1,4 @@
-using System.Collections;
+using GBGame.Data;
 using System.Collections.Generic;
 using UnityEngine;
 

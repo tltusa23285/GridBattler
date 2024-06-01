@@ -2,14 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ActorCanvas : MonoBehaviour
+namespace GBGame.Actors
 {
-    [SerializeField] private TextMeshProUGUI HpText;
-    [SerializeField] private Image HpBar;
-
-    public void UpdateHealth(in int c, in int m)
+    public class ActorCanvas : MonoBehaviour
     {
-        HpText.text = c.ToString();
-        HpBar.fillAmount = Mathf.InverseLerp(0, m, c);
-    }
+        [SerializeField] private TextMeshProUGUI HpText;
+        [SerializeField] private Image HpBar;
+
+        public void UpdateHealth(in int c, in int m)
+        {
+            HpText.text = c.ToString();
+            HpBar.fillAmount = Mathf.InverseLerp(0, m, c);
+        }
+    } 
 }

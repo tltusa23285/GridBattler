@@ -1,11 +1,13 @@
 using UnityEngine;
-
-public struct IJsonObjectWrapper<T>: IJsonObject where T : IJsonObject
+namespace GBGame.Utilities
 {
-    public string JsonID => Object.JsonID;
-    [SerializeReference] public T Object;
-    public IJsonObjectWrapper(T obj)
+    public struct IJsonObjectWrapper<T> : IJsonObject where T : IJsonObject
     {
-        Object = obj;
-    }
+        public string JsonID => Object.JsonID;
+        [SerializeReference] public T Object;
+        public IJsonObjectWrapper(T obj)
+        {
+            Object = obj;
+        }
+    } 
 }

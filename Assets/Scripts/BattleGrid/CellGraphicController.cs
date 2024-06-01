@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class CellGraphicController : MonoBehaviour
+namespace GBGame
 {
-    [SerializeField] private MeshRenderer Renderer;
-
-    public Vector3 Position
+    public class CellGraphicController : MonoBehaviour
     {
-        get => this.transform.position;
-        set => this.transform.position = value;
-    }
+        [SerializeField] private MeshRenderer Renderer;
 
-    public void SetTargetFlash(bool on)
-    {
-        Renderer.material.SetInt("_Targeted", on ? 1 : 0);
-    }
+        public Vector3 Position
+        {
+            get => this.transform.position;
+            set => this.transform.position = value;
+        }
+
+        public void SetTargetFlash(bool on)
+        {
+            Renderer.material.SetInt("_Targeted", on ? 1 : 0);
+        }
+    } 
 }

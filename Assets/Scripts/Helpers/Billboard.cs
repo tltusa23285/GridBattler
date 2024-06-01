@@ -1,27 +1,29 @@
 using UnityEngine;
 
-public class Billboard : MonoBehaviour
+namespace GBGame
 {
-    private Transform Target => CameraController.CurrentCam.Camera.transform;
-    private Transform ThisTrans;
-
-    [SerializeField] private bool Invert = false;
-
-    private void Awake()
+    public class Billboard : MonoBehaviour
     {
-        ThisTrans = transform;
-    }
+        private Transform Target => CameraController.CurrentCam.Camera.transform;
+        private Transform ThisTrans;
 
-    Vector3 dir_cache;
-    Quaternion FinalRotation;
-    void Update()
-    {
-        dir_cache = Target.position - ThisTrans.position;
-        FinalRotation = Quaternion.LookRotation(Invert ? -dir_cache : dir_cache,Target.up);
-    }
-    private void LateUpdate()
-    {
-        this.transform.rotation = FinalRotation;
-    }
+        [SerializeField] private bool Invert = false;
 
+        private void Awake()
+        {
+            ThisTrans = transform;
+        }
+
+        Vector3 dir_cache;
+        Quaternion FinalRotation;
+        void Update()
+        {
+            dir_cache = Target.position - ThisTrans.position;
+            FinalRotation = Quaternion.LookRotation(Invert ? -dir_cache : dir_cache, Target.up);
+        }
+        private void LateUpdate()
+        {
+            this.transform.rotation = FinalRotation;
+        }
+    } 
 }

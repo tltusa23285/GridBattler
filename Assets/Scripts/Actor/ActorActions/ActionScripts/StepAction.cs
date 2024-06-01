@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class StepAction : ActorAction
+namespace GBGame.Actors.Actions
 {
-    public Vector2Int Direction;
-    public uint Duration = 10;
-
-    public override void Execute(out uint ticksToResolve)
+    public class StepAction : ActorAction
     {
-        ticksToResolve = Duration;
-        AddNext(() => Caller.TryMoveToCell(Direction, Duration));
-    }
+        public Vector2Int Direction;
+        public uint Duration = 10;
+
+        public override void Execute(out uint ticksToResolve)
+        {
+            ticksToResolve = Duration;
+            AddNext(() => Caller.TryMoveToCell(Direction, Duration));
+        }
+    } 
 }

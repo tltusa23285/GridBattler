@@ -1,4 +1,7 @@
-public interface IJsonObject
+namespace GBGame.Utilities
 {
-    public string JsonID { get; }
+	public interface IJsonObject
+	{
+		public string JsonID { get; }
+	}
 }

@@ -1,56 +1,60 @@
+using GBGame.Interfaces;
 using UnityEngine;
 
-public class EnemyActor : Actor, IDamagable
+namespace GBGame.Actors.ActorTypes
 {
-    public string EnemyController;
-    [SerializeField] private ActorCanvas ActorUI;
-
-    public EnemyActorController Controller { get; private set; }
-
-    private void Awake()
+    public class EnemyActor : Actor, IDamagable
     {
-        CurrentHealth = MaxHealth;
-    }
-    void Start()
-    {
-        ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
-    }
+        public string EnemyController;
+        [SerializeField] private ActorCanvas ActorUI;
 
-    public void SetController(EnemyActorController con)
-    {
-        Controller = con;
-        Controller.Setup(this);
-    }
-    protected override bool OnSpawn()
-    {
-        if (!Com.EnemyLibrary.GetItem(EnemyController, out var result)) return false;
-        SetController(result.Object);
-        return true;
-    }
+        public EnemyActorController Controller { get; private set; }
 
-    #region IDamageable
-    [Header("Damageable")]
-    private int CurrentHealth;
-    public int MaxHealth = 100;
+        private void Awake()
+        {
+            CurrentHealth = MaxHealth;
+        }
+        void Start()
+        {
+            ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
+        }
 
-    float IDamagable.CurrentHealth => CurrentHealth;
-    float IDamagable.MaxHealth => MaxHealth;
-    void IDamagable.Damage(in int dmg)
-    {
-        CurrentHealth = Mathf.Clamp(CurrentHealth - dmg, 0, MaxHealth);
-        if (CurrentHealth <= 0) { Despawn(); }
-        else ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
-    }
+        public void SetController(EnemyActorController con)
+        {
+            Controller = con;
+            Controller.Setup(this);
+        }
+        protected override bool OnSpawn()
+        {
+            if (!Com.EnemyLibrary.GetItem(EnemyController, out var result)) return false;
+            SetController(result.Object);
+            return true;
+        }
 
-    void IDamagable.Heal(in int dmg)
-    {
-        CurrentHealth = Mathf.Clamp(CurrentHealth + dmg, 0, MaxHealth);
-        ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
-    }
+        #region IDamageable
+        [Header("Damageable")]
+        private int CurrentHealth;
+        public int MaxHealth = 100;
 
-    protected override void CancelActions()
-    {
-        Controller.CancelActions();
-    }
-    #endregion
+        float IDamagable.CurrentHealth => CurrentHealth;
+        float IDamagable.MaxHealth => MaxHealth;
+        void IDamagable.Damage(in int dmg)
+        {
+            CurrentHealth = Mathf.Clamp(CurrentHealth - dmg, 0, MaxHealth);
+            if (CurrentHealth <= 0) { Despawn(); }
+            else ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
+        }
+
+        void IDamagable.Heal(in int dmg)
+        {
+            CurrentHealth = Mathf.Clamp(CurrentHealth + dmg, 0, MaxHealth);
+            ActorUI.UpdateHealth(CurrentHealth, MaxHealth);
+        }
+
+        protected override void CancelActions()
+        {
+            Controller.CancelActions();
+        }
+        #endregion
+    } 
 }

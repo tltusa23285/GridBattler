@@ -3,63 +3,68 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Linq;
-using WAction = IJsonObjectWrapper<ActorAction>;
+using GBGame.Utilities;
+using GBGame.Actors;
 
-public class ActionEditorWindow : JsonLibraryEditorWindow<WAction>
+namespace GBGame.Editor
 {
-    [MenuItem("Game/Action Editor")]
-    public static void ShowWindow()
+    using WAction = IJsonObjectWrapper<ActorAction>;
+    public class ActionEditorWindow : JsonLibraryEditorWindow<WAction>
     {
-        ActionEditorWindow window = GetWindow<ActionEditorWindow>();
-        window.Setup();
-        window.Show();
-    }
-
-    [SerializeReference] public ActorAction CurrentAction;
-    private WAction ActiveAction;
-    protected override WAction CurrentItem
-    {
-        get
+        [MenuItem("Game/Action Editor")]
+        public static void ShowWindow()
         {
-            return ActiveAction;
+            ActionEditorWindow window = GetWindow<ActionEditorWindow>();
+            window.Setup();
+            window.Show();
         }
-        set
-        {
-            ActiveAction = value;
-            CurrentAction = ActiveAction.Object;
-        }
-    }
-    protected override string CurrentItemClassLabel => CurrentAction.GetType().ToString();
 
-    protected override string LibraryFolder => ActorAction.LIB_FOLDER_NAME;
-    protected override string LibraryFile => ActorAction.LIB_FILE_NAME;
-
-    protected override string[] GetAddItems()
-    {
-        List<string> result = new List<string>();
-        foreach (var i in AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsSubclassOf(typeof(ActorAction))))
+        [SerializeReference] public ActorAction CurrentAction;
+        private WAction ActiveAction;
+        protected override WAction CurrentItem
         {
-            result.Add(i.ToString());
+            get
+            {
+                return ActiveAction;
+            }
+            set
+            {
+                ActiveAction = value;
+                CurrentAction = ActiveAction.Object;
+            }
         }
-        result.Sort();
-        return result.ToArray();
-    }
+        protected override string CurrentItemClassLabel => CurrentAction.GetType().ToString();
 
-    protected override void SetCurrentFromType(string type)
-    {
-        foreach (var i in AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(t => t.ToString() == type))
+        protected override string LibraryFolder => ActorAction.LIB_FOLDER_NAME;
+        protected override string LibraryFile => ActorAction.LIB_FILE_NAME;
+
+        protected override string[] GetAddItems()
         {
-            SetCurrent(new WAction(Activator.CreateInstance(i) as ActorAction));
-            return;
+            List<string> result = new List<string>();
+            foreach (var i in AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(assembly => assembly.GetTypes())
+                    .Where(type => type.IsSubclassOf(typeof(ActorAction))))
+            {
+                result.Add(i.ToString());
+            }
+            result.Sort();
+            return result.ToArray();
         }
-    }
-    protected override void SetSerialized(ref SerializedObject obj, ref SerializedProperty prop)
-    {
-        obj = new SerializedObject(this);
-        prop = ThisObj.FindProperty(nameof(CurrentAction));
-    }
+
+        protected override void SetCurrentFromType(string type)
+        {
+            foreach (var i in AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(assembly => assembly.GetTypes())
+                    .Where(t => t.ToString() == type))
+            {
+                SetCurrent(new WAction(Activator.CreateInstance(i) as ActorAction));
+                return;
+            }
+        }
+        protected override void SetSerialized(ref SerializedObject obj, ref SerializedProperty prop)
+        {
+            obj = new SerializedObject(this);
+            prop = ThisObj.FindProperty(nameof(CurrentAction));
+        }
+    } 
 }

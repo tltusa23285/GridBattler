@@ -1,45 +1,49 @@
+using GBGame.Utilities;
 using UnityEngine;
 
-public class Archer : EnemyActorController
+namespace GBGame.Actors
 {
-    [Header("Archer")]
-    public string AttackActionID = "ArcherShot";
-    public string MoveActionID = "StepToPlayerRow1";
-    public float TimeBetweenActions;
-
-    private ActorAction AttackAction;
-    private ActorAction MoveAction;
-
-    private uint ActionTicks;
-    public override void AIStep()
+    public class Archer : EnemyActorController
     {
-        if (Caller.Position.y != Caller.Com.PlayerActor.Position.y)
+        [Header("Archer")]
+        public string AttackActionID = "ArcherShot";
+        public string MoveActionID = "StepToPlayerRow1";
+        public float TimeBetweenActions;
+
+        private ActorAction AttackAction;
+        private ActorAction MoveAction;
+
+        private uint ActionTicks;
+        public override void AIStep()
         {
-            MoveAction.Execute(out ActionTicks);
+            if (Caller.Position.y != Caller.Com.PlayerActor.Position.y)
+            {
+                MoveAction.Execute(out ActionTicks);
+            }
+            else
+            {
+                AttackAction.Execute(out ActionTicks);
+            }
+            AddFuture(Com.TickManager.TimeToTicks(TimeBetweenActions) + ActionTicks, AIStep);
         }
-        else
+
+        protected override bool OnSetup()
         {
-            AttackAction.Execute(out ActionTicks);
+            IJsonObjectWrapper<ActorAction> result;
+            if (!Com.ActionLibrary.GetItem(AttackActionID, out result)) return false;
+            (AttackAction = result.Object).Setup(Caller);
+            if (!Com.ActionLibrary.GetItem(MoveActionID, out result)) return false;
+            (MoveAction = result.Object).Setup(Caller);
+
+            AddFuture(base.Caller.Com.TickManager.TimeToTicks(TimeBetweenActions), AIStep);
+
+            return true;
         }
-        AddFuture(Com.TickManager.TimeToTicks(TimeBetweenActions) + ActionTicks, AIStep);
-    }
 
-    protected override bool OnSetup()
-    {
-        IJsonObjectWrapper<ActorAction> result;
-        if (!Com.ActionLibrary.GetItem(AttackActionID, out result)) return false;
-        (AttackAction = result.Object).Setup(Caller);
-        if (!Com.ActionLibrary.GetItem(MoveActionID, out result)) return false;
-        (MoveAction = result.Object).Setup(Caller);
-
-        AddFuture(base.Caller.Com.TickManager.TimeToTicks(TimeBetweenActions), AIStep);
-
-        return true;
-    }
-
-    protected override void OnActionsCancelled()
-    {
-        AttackAction.CancelAction();
-        MoveAction.CancelAction();
-    }
+        protected override void OnActionsCancelled()
+        {
+            AttackAction.CancelAction();
+            MoveAction.CancelAction();
+        }
+    } 
 }
